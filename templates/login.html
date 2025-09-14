@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+  <h1 class="my-5">Log In Form</h1>
+  <form method="post">
+    <div class="mb-3">
+      <label for="usernameInput" class="form-label">User Name</label>
+      <input
+        type="text"
+        name="username"
+        class="form-control"
+        id="usernameInput"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="passwordInput" class="form-label">Password</label>
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        id="passwordInput"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </form>
+</div>
+
+{% endblock content %}
