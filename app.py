@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+import string, random
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ class User(db.Model):
 
 class Url(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    long_url = db.Column(db.String(200), nullable=False)
+    long_url = db.Column(db.String(400), nullable=False)
     short_url = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -65,9 +66,64 @@ def logout():
     return redirect("/")
 
 
-@app.route("/")
+def generate_short_url(slug):
+    chars = string.ascii_letters + string.digits
+
+    if slug:
+        return slug
+
+    return "".join(random.choices(chars, k=5))
+
+
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html", session=session)
+    if "user" not in session:
+        return redirect("/login")
+    if request.method == "POST":
+        long_url = request.form.get("long_url")
+        slug = request.form.get("slug")
+
+        if slug:
+            slug_exist = Url.query.filter_by(short_url=slug).first()
+
+            if not slug_exist:
+                short_url = generate_short_url(slug)
+            else:
+                short_url = generate_short_url("")
+        else:
+            short_url = generate_short_url("")
+
+        new_url = Url(long_url=long_url, short_url=short_url, user_id=session["user"])
+
+        db.session.add(new_url)
+        db.session.commit()
+        return redirect("/")
+
+    all_urls = Url.query.filter_by(user_id=session["user"])
+    return render_template("index.html", all_urls=all_urls)
+
+
+@app.route("/<short_url>")
+def redirect_url(short_url):
+    url = Url.query.filter_by(short_url=short_url).first()
+
+    if url:
+        return redirect(url.long_url)
+    return "URL NOT FOUND", 404
+
+
+@app.route("/delete/<int:url_id>")
+def delete_url(url_id):
+    if "user" not in session:
+        return redirect("/login")
+
+    url = Url.query.filter_by(id=url_id).first()
+
+    if url:
+        if url.user_id == session["user"]:
+            db.session.delete(url)
+            db.session.commit()
+    return redirect("/")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
-{% extends "base.html" %} 
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +13,33 @@
     />
   </head>
   <body>
-    <h1>Home Page</h1>
+    <h1 class="m-3">ShortUrl</h1>
+    <form method="post" class="mx-5">
+      <div class="mb-3">
+        <label for="logUrlInput" class="form-label">Long Url</label>
+        <input
+          type="url"
+          name="long_url"
+          class="form-control"
+          id="logUrlInput"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="slugInput" class="form-label">Slug</label>
+        <input type="text" name="slug" class="form-control" id="slugInput" />
+      </div>
+      <button type="submit" class="btn btn-primary">Shorten Url</button>
+    </form>
+    <h2 class="m-3">Your Urls</h2>
+    {% for url in all_urls %}
+    <ul class="list-group mx-5">
+      <li class="list-group-item">
+        <a href="{{request.host_url}}{{url.short_url}}" target="_black"
+        >{{request.host_url}}{{url.short_url}}</a>
+        <a href="/delete/{{url.id}}" class="btn btn-danger float-end">Delete</a>
+      </li>
+    </ul>
+    {% endfor %}
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
