@@ -41,7 +41,7 @@ def register():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
-            return redirect("/")
+            return redirect("/login")
     return render_template("register.html")
 
 
@@ -109,6 +109,7 @@ def redirect_url(short_url):
 
     if url:
         return redirect(url.long_url)
+    
     return "URL NOT FOUND", 404
 
 
