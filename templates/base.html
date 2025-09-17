@@ -11,10 +11,10 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <body class="bg-dark text-light">
+    <nav class="navbar navbar-expand-lg bg-warning" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">ShortUrl</a>
+        <a class="navbar-brand mx-5 fs-1" href="#">ShortUrl</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -27,7 +27,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto">
+          <ul class="navbar-nav ms-auto mx-5 fs-4">
             {% if "user" in session %}
             <a href="/logout" class="nav-link">Log Out</a>
             {% else %}
