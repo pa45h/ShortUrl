@@ -7,9 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body
-    class="w-screen h-full bg-[url(/static/bg.png)] bg-slate-900 bg-fixed bg-no-repeat bg-contain bg-center overflow-x-hidden"
+    class="w-screen h-screen bg-[url(/static/bg.png)] bg-slate-900 bg-fixed bg-no-repeat bg-contain bg-center overflow-x-hidden"
   >
-    <div class="w-full h-full bg-[url(/static/Cubes.png)] bg-fixed bg-contain bg-center">
+    <div class="w-full h-full bg-[url(/static/Cubes.png)] bg-fixed bg-contain bg-no-repeat bg-center">
       <nav>
         <div
           class="relative flex flex-wrap justify-between items-center mx-auto pt-6 mb-18 max-w-screen-xl"
@@ -58,7 +58,14 @@
         </div>
       </nav>
 
-      {% block content %} {% endblock content %}
+      {% with messages=get_flashed_messages(with_categories=True) %} {% if
+      messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %} {% block content %} {% endblock content %}
     </div>
   </body>
 </html>
