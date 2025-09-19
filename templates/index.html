@@ -9,11 +9,11 @@
   </head>
   <body>
     <div
-      class="w-full max-w-lg p-4 border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:border-gray-700 mx-auto my-10"
+      class="w-full max-w-lg shadow-[0_0_10px_0_rgb(25,255,255)] backdrop-blur bg-transparent rounded-lg md:p-8 mx-auto"
     >
-      <form class="space-y-6" action="post">
+      <form class="space-y-6" method="post">
         <h5 class="text-3xl font-medium text-gray-900 dark:text-white">
-          Shorten Your Loooong Links :)
+          Shorten Your Loooong Links : )
         </h5>
         <div>
           <label
@@ -37,12 +37,11 @@
             >Customize Your Url</label
           >
           <input
-            type="password"
+            type="text"
             name="slug"
             id="slugInput"
             placeholder="enter the slug here"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
-            required
           />
         </div>
         <button
@@ -54,17 +53,54 @@
       </form>
     </div>
 
-    <h2 class="m-5 text-white font-bold text-3xl">Your Urls</h2>
-    {% for url in all_urls %}
-    <ul class="list-group mx-5">
-      <li class="list-group-item">
-        <a href="{{request.host_url}}{{url.short_url}}" target="_black"
-          >{{request.host_url}}{{url.short_url}}</a
+    {% if all_urls %}
+
+    <h2 class="m-5 px-18 text-white font-bold text-3xl">Your Urls</h2>
+
+    <div
+      class="w-[60%] overflow-x-auto shadow-md rounded-lg flex mx-auto pb-18"
+    >
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mx-auto"
+      >
+        <thead
+          class="bg-gray-800 text-xs text-gray-700 uppercase dark:text-gray-400"
         >
-        <a href="/delete/{{url.id}}" class="btn btn-danger float-end">Delete</a>
-      </li>
-    </ul>
-    {% endfor %}
+          <tr>
+            <th scope="col" class="px-6 py-3">Shorten URL</th>
+            <th scope="col" class="px-6 py-3">Original URL</th>
+            <th scope="col" class="px-6 py-3">Action</th>
+          </tr>
+        </thead>
+        {% for url in all_urls %}
+        <tbody>
+          <tr
+            class="border-b dark:border-gray-700 border-gray-200 backdrop-blur-2xl"
+          >
+            <td class="px-6 py-4">
+              <a href="{{request.host_url}}{{url.short_url}}" target="_black"
+                >{{request.host_url}}{{url.short_url}}</a
+              >
+            </td>
+            <td class="px-6 py-4">
+              <a href="{{url.long_url}}" target="_black"
+                >{{url.long_url[:30]}}...</a
+              >
+            </td>
+            <td class="px-6 py-4">
+              <a
+                href="/delete/{{url.id}}"
+                class="font-medium text-red-400 hover:underline"
+                
+                >Delete</a
+              >
+            </td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
   </body>
 </html>
 {% endblock content %}

@@ -41,7 +41,8 @@ def register():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
-            return redirect("/login")
+            session["user"] = new_user.id
+            return redirect("/")
     return render_template("register.html")
 
 
@@ -100,7 +101,8 @@ def home():
         return redirect("/")
 
     all_urls = Url.query.filter_by(user_id=session["user"])
-    return render_template("index.html", all_urls=all_urls)
+    user = User.query.filter_by(id=session["user"]).first()
+    return render_template("index.html", all_urls=all_urls, user=user)
 
 
 @app.route("/<short_url>")
@@ -109,7 +111,7 @@ def redirect_url(short_url):
 
     if url:
         return redirect(url.long_url)
-    
+
     return "URL NOT FOUND", 404
 
 
