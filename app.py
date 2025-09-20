@@ -42,7 +42,11 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             session["user"] = new_user.id
+            flash("User Registered Successfully", "success")
             return redirect("/")
+        else:
+            flash("User Already Exists, Try To Log In", "warning")
+            return redirect("/login")
     return render_template("register.html")
 
 
@@ -54,9 +58,17 @@ def login():
 
         user = User.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user.password, password):
-            session["user"] = user.id
-            return redirect("/")
+        if user:
+            if check_password_hash(user.password, password):
+                session["user"] = user.id
+                flash("Logged In", "success")
+                return redirect("/")
+            else:
+                flash("Wrong Password, Try Again", "warning")
+                return redirect("/login")
+        else:
+            flash("User Does Not Exists, Try To Register", "warning")
+            return redirect("/register")
 
     return render_template("login.html")
 
@@ -64,7 +76,8 @@ def login():
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
     session.pop("user")
-    return redirect("/")
+    flash("Logged Out", "success")
+    return redirect("/login")
 
 
 def generate_short_url(slug):
@@ -79,6 +92,7 @@ def generate_short_url(slug):
 @app.route("/", methods=["GET", "POST"])
 def home():
     if "user" not in session:
+        flash("You Have To Log In To Access This Page", "warning")
         return redirect("/login")
     if request.method == "POST":
         long_url = request.form.get("long_url")
@@ -88,10 +102,13 @@ def home():
             slug_exist = Url.query.filter_by(short_url=slug).first()
 
             if not slug_exist:
+                flash("Custom Url Created", "success")
                 short_url = generate_short_url(slug)
             else:
+                flash("Slug Already Exist, Random Url Created", "success")
                 short_url = generate_short_url("")
         else:
+            flash("Random Url Created", "success")
             short_url = generate_short_url("")
 
         new_url = Url(long_url=long_url, short_url=short_url, user_id=session["user"])
@@ -110,14 +127,17 @@ def redirect_url(short_url):
     url = Url.query.filter_by(short_url=short_url).first()
 
     if url:
+        flash("Url Opened In New Tab", "success")
         return redirect(url.long_url)
 
+    flash("URL NOT FOUND", "warning")
     return "URL NOT FOUND", 404
 
 
 @app.route("/delete/<int:url_id>")
 def delete_url(url_id):
     if "user" not in session:
+        flash("You Have To Log In To Delete Url", "warning")
         return redirect("/login")
 
     url = Url.query.filter_by(id=url_id).first()
@@ -126,6 +146,7 @@ def delete_url(url_id):
         if url.user_id == session["user"]:
             db.session.delete(url)
             db.session.commit()
+            flash("Url Deleted", "success")
     return redirect("/")
 
 
