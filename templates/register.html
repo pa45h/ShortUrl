@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="w-screen h-screen">
   <div
-    class="w-full max-w-lg shadow-[0_0_10px_0_rgb(200,200,100)] backdrop-blur rounded-lg md:p-8 mx-auto"
+    class="max-w-lg md:shadow-[0_0_8px_0_rgb(200,200,100)] md:backdrop-blur rounded-lg p-8 mx-auto m-8 mt-18"
   >
     <form class="space-y-6" method="post">
       <h5 class="text-3xl font-medium text-gray-900 dark:text-white">
@@ -24,6 +24,7 @@
           id="passwordInput"
           placeholder="password"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
+          required
         />
       </div>
       <button

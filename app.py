@@ -45,7 +45,7 @@ def register():
             flash("User Registered Successfully", "success")
             return redirect("/")
         else:
-            flash("User Already Exists, Try To Log In", "warning")
+            flash("User Exists, Try To Log In", "warning")
             return redirect("/login")
     return render_template("register.html")
 
@@ -67,7 +67,7 @@ def login():
                 flash("Wrong Password, Try Again", "warning")
                 return redirect("/login")
         else:
-            flash("User Does Not Exists, Try To Register", "warning")
+            flash("User Not Exists, Try To Register", "warning")
             return redirect("/register")
 
     return render_template("login.html")
@@ -105,7 +105,7 @@ def home():
                 flash("Custom Url Created", "success")
                 short_url = generate_short_url(slug)
             else:
-                flash("Slug Already Exist, Random Url Created", "success")
+                flash("Slug Exists, Random Url Created", "success")
                 short_url = generate_short_url("")
         else:
             flash("Random Url Created", "success")
@@ -127,7 +127,6 @@ def redirect_url(short_url):
     url = Url.query.filter_by(short_url=short_url).first()
 
     if url:
-        flash("Url Opened In New Tab", "success")
         return redirect(url.long_url)
 
     flash("URL NOT FOUND", "warning")

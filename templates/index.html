@@ -8,102 +8,115 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div
-      class="w-full max-w-lg shadow-[0_0_5px_0_rgb(200,200,100)] backdrop-blur rounded-lg md:p-8 mx-auto"
-    >
-      <form class="space-y-6" method="post">
-        <h5 class="text-3xl font-medium text-gray-900 dark:text-white">
-          Shorten Your Loooong Links : )
-        </h5>
-        <div>
-          <label
-            for="logUrlInput"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Your Url</label
-          >
-          <input
-            type="text"
-            name="long_url"
-            id="logUrlInput"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
-            placeholder="enter the link here"
-            required
-          />
-        </div>
-        <div>
-          <label
-            for="slugInput"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Customize Your Url</label
-          >
-          <input
-            type="text"
-            name="slug"
-            id="slugInput"
-            placeholder="enter the slug here"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
-          />
-        </div>
-        <button
-          type="submit"
-          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Shorten
-        </button>
-      </form>
-    </div>
-
-    {% if all_urls %}
-
-    <h2 class="w-[60%] text-left mx-auto m-5 text-white font-bold text-3xl">Your Urls</h2>
-
-    <div class="w-[60%] overflow-x-auto shadow-xl rounded-lg mx-auto backdrop-blur pb-18">
-      <table
-        class="w-full text-md text-center rtl:text-right text-gray-500 dark:text-gray-400 mx-auto"
+    <div class="w-full flex flex-col mx-auto">
+      <h1 class="text-white font-bold text-[28px] md:w-[60%] md:mx-auto mx-8">
+        {% if "user" in session %} Hello {{user.username}}, {% endif %}
+      </h1>
+      <div
+        class="max-w-lg md:shadow-[0_0_8px_0_rgb(200,200,100)] md:backdrop-blur rounded-lg p-8 mx-auto mt-18"
       >
-        <thead
-          class="bg-gray-800 text-sm text-gray-700 uppercase dark:text-gray-400"
-        >
-          <tr>
-            <th scope="col" class="px-6 py-3">Shorten URL</th>
-            <th scope="col" class="px-6 py-3">Original URL</th>
-            <th scope="col" class="px-6 py-3">Action</th>
-          </tr>
-        </thead>
-        {% for url in all_urls %}
-        <tbody>
-          <tr
-            class="border-b dark:border-gray-700 border-gray-200 backdrop-blur-2xl"
+        <form class="space-y-6" method="post">
+          <h5 class="text-3xl font-medium text-gray-900 dark:text-white">
+            Shorten Your Loooong Links : )
+          </h5>
+          <div>
+            <label
+              for="logUrlInput"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Your Url</label
+            >
+            <input
+              type="text"
+              name="long_url"
+              id="logUrlInput"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
+              placeholder="enter the link here"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="slugInput"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Customize Your Url</label
+            >
+            <input
+              type="text"
+              name="slug"
+              id="slugInput"
+              placeholder="enter the slug here"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white opacity-50"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <td class="px-6 py-4">
-              <a
-                class="hover:text-white hover:underline transition-all duration-200"
-                href="{{request.host_url}}{{url.short_url}}"
-                target="_blank"
-                >{{request.host_url}}{{url.short_url}}</a
-              >
-            </td>
-            <td class="px-6 py-4">
-              <a
-                class="hover:text-white hover:underline transition-all duration-200"
-                href="{{url.long_url}}"
-                target="_blank"
-                >{{url.long_url[:30]}}...</a
-              >
-            </td>
-            <td class="px-6 py-4">
-              <a
-                href="/delete/{{url.id}}"
-                class="font-medium text-red-400 hover:underline"
-                >Delete</a
-              >
-            </td>
-          </tr>
-        </tbody>
-        {% endfor %}
-      </table>
+            Shorten
+          </button>
+        </form>
+      </div>
+
+      {% if all_urls %}
+
+      <h2
+        class="md:w-[60%] text-left md:mx-auto mb-5 mx-8 text-white font-bold text-3xl"
+      >
+        Your Urls
+      </h2>
+
+      <div
+        class="md:w-[60%] w-[90%] overflow-x-auto shadow-xl rounded-lg mx-auto backdrop-blur pb-18"
+      >
+        <table
+          class="w-full text-md text-center rtl:text-right text-gray-500 dark:text-gray-400 mx-auto"
+        >
+          <thead
+            class="bg-gray-800 text-sm text-gray-700 uppercase dark:text-gray-400"
+          >
+            <tr>
+              <th scope="col" class="px-6 py-3">Shorten URL</th>
+              <th scope="col" class="px-6 py-3 hidden lg:inline-block">
+                Original URL
+              </th>
+              <th scope="col" class="px-6 py-3">Action</th>
+            </tr>
+          </thead>
+          {% for url in all_urls %}
+          <tbody>
+            <tr
+              class="border-b dark:border-gray-700 border-gray-200 backdrop-blur-2xl"
+            >
+              <td class="lg:px-6 px4 py-4">
+                <a
+                  class="hover:text-white hover:underline transition-all duration-200"
+                  href="{{request.host_url}}{{url.short_url}}"
+                  target="_blank"
+                  >{{request.host_url}}{{url.short_url}}</a
+                >
+              </td>
+              <td class="lg:px-6 px4 py-4 hidden lg:inline-block">
+                <a
+                  class="hover:text-white hover:underline transition-all duration-200"
+                  href="{{url.long_url}}"
+                  target="_blank"
+                  >{{url.long_url[:30]}}...</a
+                >
+              </td>
+              <td class="px-6 py-4">
+                <a
+                  href="/delete/{{url.id}}"
+                  class="font-medium text-red-400 hover:underline"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </body>
 </html>
 {% endblock content %}

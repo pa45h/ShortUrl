@@ -7,20 +7,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body
-    class="w-screen bg-[url(/static/bg.png)] bg-slate-950 bg-fixed bg-no-repeat bg-contain bg-center overflow-x-hidden"
+    class="relative w-screen bg-[url(/static/bg.png)] bg-slate-950 bg-fixed bg-no-repeat bg-contain bg-center overflow-x-hidden"
   >
     <div
-      class="relative w-full bg-[url(/static/Cubes.png)] bg-fixed bg-contain bg-center"
+      class="w-full bg-[url(/static/Cubes.png)] bg-fixed bg-contain bg-center"
     >
       <nav>
         <div
-          class="relative flex flex-wrap justify-between items-center mx-auto pt-4 mb-[150px] max-w-screen-xl"
+          class="flex flex-wrap justify-between items-center mx-auto p-4 mx-4 max-w-screen-xl"
         >
-          <h1 class="text-white font-bold text-[28px]">
-            {% if "user" in session %} Hello {{user.username}}, {% endif %}
-          </h1>
-          <a class="absolute left-[50%] translate-[-50%] top-[60%]" href="/">
-            <img class="w-[190px]" src="static/logo.png" />
+          <a href="/">
+            <img class="w-[11rem]" src="static/logo.png" />
           </a>
           <div>
             {% if "user" in session %}
@@ -32,7 +29,8 @@
                 Log Out
               </button>
             </a>
-            {% else %}
+            {% else %} {% if request.path == "/register" %}
+
             <a href="/login">
               <button
                 class="relative inline-flex items-center justify-center p-0.5 mb-1 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 cursor-pointer"
@@ -44,6 +42,7 @@
                 </span>
               </button>
             </a>
+            {% endif %} {% if request.path == "/login" %}
             <a href="/register">
               <button
                 class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 cursor-pointer"
@@ -55,7 +54,7 @@
                 </span>
               </button>
             </a>
-            {% endif%}
+            {% endif %} {% endif%}
           </div>
         </div>
       </nav>
@@ -63,7 +62,7 @@
       {% with messages=get_flashed_messages(with_categories=True) %} {% if
       messages %}
       <ul
-        class="flashes absolute top-[17%] left-[50%] translate-[-50%] transition-all duration-300 z-100"
+        class="flashes absolute md:top-[100px] top-[16%] left-[50%] translate-[-50%] transition-all duration-300 z-100"
       >
         {% for category, message in messages %}
         <li>
