@@ -9,7 +9,7 @@
   </head>
   <body>
     <div
-      class="w-full max-w-lg shadow-[0_0_10px_0_rgb(25,255,255)] backdrop-blur bg-transparent rounded-lg md:p-8 mx-auto"
+      class="w-full max-w-lg shadow-[0_0_5px_0_rgb(200,200,100)] backdrop-blur rounded-lg md:p-8 mx-auto"
     >
       <form class="space-y-6" method="post">
         <h5 class="text-3xl font-medium text-gray-900 dark:text-white">
@@ -55,16 +55,14 @@
 
     {% if all_urls %}
 
-    <h2 class="m-5 px-18 text-white font-bold text-3xl">Your Urls</h2>
+    <h2 class="w-[60%] text-left mx-auto m-5 text-white font-bold text-3xl">Your Urls</h2>
 
-    <div
-      class="w-[60%] overflow-x-auto shadow-md rounded-lg flex mx-auto pb-18"
-    >
+    <div class="w-[60%] overflow-x-auto shadow-xl rounded-lg mx-auto backdrop-blur pb-18">
       <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mx-auto"
+        class="w-full text-md text-center rtl:text-right text-gray-500 dark:text-gray-400 mx-auto"
       >
         <thead
-          class="bg-gray-800 text-xs text-gray-700 uppercase dark:text-gray-400"
+          class="bg-gray-800 text-sm text-gray-700 uppercase dark:text-gray-400"
         >
           <tr>
             <th scope="col" class="px-6 py-3">Shorten URL</th>
@@ -78,12 +76,18 @@
             class="border-b dark:border-gray-700 border-gray-200 backdrop-blur-2xl"
           >
             <td class="px-6 py-4">
-              <a href="{{request.host_url}}{{url.short_url}}" target="_black"
+              <a
+                class="hover:text-white hover:underline transition-all duration-200"
+                href="{{request.host_url}}{{url.short_url}}"
+                target="_blank"
                 >{{request.host_url}}{{url.short_url}}</a
               >
             </td>
             <td class="px-6 py-4">
-              <a href="{{url.long_url}}" target="_black"
+              <a
+                class="hover:text-white hover:underline transition-all duration-200"
+                href="{{url.long_url}}"
+                target="_blank"
                 >{{url.long_url[:30]}}...</a
               >
             </td>
@@ -91,7 +95,6 @@
               <a
                 href="/delete/{{url.id}}"
                 class="font-medium text-red-400 hover:underline"
-                
                 >Delete</a
               >
             </td>
